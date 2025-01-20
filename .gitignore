@@ -1,0 +1,5 @@
+# Python e configurações da IDEA
+.venv
+
+# Informações privadas sobre o bot
+.env
