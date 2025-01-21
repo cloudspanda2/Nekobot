@@ -74,8 +74,10 @@ class Application:
 
     @staticmethod
     async def on_started(ctx: Client) -> None:
-        """Chamada quando o bot inicializa com sucesso
+        """
+        Chamada quando o bot inicializa com sucesso
         @param ctx: Utilizado para interagir com o cliente.
+        @returns: Não retorna nenhum valor
         """
 
         # Inicializa a atividade no perfil do bot
@@ -90,8 +92,11 @@ class Application:
 
     @staticmethod
     async def message_reviced(message: Message, ctx: Client) -> None:
-        """ Chamada quando o bot detecta uma mensagem em um determinado canal
-        :param message: A interação da mensagem que o bot recebe no canal
+        """
+        Chamada quando o bot detecta uma mensagem em um determinado canal
+        :param ctx: O cliente do bot em execução.
+        :param message: A instância da mensagem recebida.
+        @return: Não retorna nenhum valor.
         """
 
         # Variaveis padrão
@@ -120,5 +125,3 @@ class Application:
                 return
         else:
             return
-
-        pass
