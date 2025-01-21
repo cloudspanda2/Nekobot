@@ -1,4 +1,4 @@
-from discord import Client, Message, Game, AllowedMentions, Guild, Status, TextChannel, File, Attachment, Emoji
+from discord import Client, Message, Game, AllowedMentions, Guild, Status, TextChannel, File, Attachment
 from requests import get, Response
 from emoji import is_emoji
 from random import choice
