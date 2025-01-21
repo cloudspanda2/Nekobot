@@ -1,4 +1,5 @@
-from discord import Client, Message, Game, AllowedMentions, Guild, Status, TextChannel, File, ChannelType
+from discord import Client, Message, Game, AllowedMentions, Guild, Status, TextChannel, File, Attachment
+from requests import get, Response
 from pathlib import Path
 from random import choice
 from time import sleep
@@ -28,7 +29,8 @@ class Application:
 
             # Veirifica se há anexos a mensagem
             if message.attachments:
-                await tc.send(content=str(split), file=File(message.attachments[0].url))
+                attachedFile: bytes = await Application.set_asset(attchment=message.attachments[0])
+                await tc.send(content=str(split), file=File(attachedFile))
             else:
                 await tc.send(content=message.content.split("->speak ")[1])
         except Exception as exc:
@@ -59,7 +61,9 @@ class Application:
             if tc.get_partial_message(int(split_ic[0])):
                 sleep(int(delay))
                 if message.attachments:
-                    await tc.get_partial_message(int(split_ic[0])).reply(str(split_ic[1]), file=File(message.attachments[0].url))
+                    attachedFile: bytes = await Application.set_asset(attchment=message.attachments[0])
+                    await tc.get_partial_message(int(split_ic[0])).reply(str(split_ic[1]), file=File(attachedFile))
+                    return
                 else:
                     await tc.get_partial_message(int(split_ic[0])).reply(str(split_ic[1]))
                     return
@@ -125,3 +129,42 @@ class Application:
                 return
         else:
             return
+
+    # -------------------------------------------------------------- Funções do sistema --------------------------------------------------------------
+
+    @staticmethod
+    async def set_asset(attchment: Attachment) -> bytes:
+        """
+        Baixa um determinado attachment (imagem) do Discord e envia parao bot
+        :param attchment: A integração do attachment
+        :return: Retorna a imagem em bytes.
+        """
+        try:
+            attach: Response = get(url=str(attchment.url), stream=bool(True), allow_redirects=bool(False))
+            attach.raise_for_status()
+
+            # Escolhe o nome do arquivo
+            fileNumbers: list[int] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+            fileNumber: str = str("")
+            fileNumberAddict: int = 15
+
+            while int(fileNumberAddict) > 0:
+                fileNumber = str(fileNumber) + str(choice(fileNumbers))
+                fileNumberAddict = fileNumberAddict - 1
+
+            # Baixa e salva o arquivo
+            with open(f"cache/{str(fileNumberAddict)}-{attchment.filename}", "wb") as out_file:
+                for chunk in attach.iter_content(1024):
+                    out_file.write(chunk)
+                out_file.close()
+
+            # Envia o arquivo baixado
+            with open(f"cache/{str(fileNumberAddict)}-{attchment.filename}", "rb") as file:
+                return file.read()
+        except Exception as exc:
+            # Implementar astraprint
+            print(exc)
+
+            # Retorna uma imagem comum
+            with open(f"cache/unvailed.png", "rb") as file:
+                return file.read()
