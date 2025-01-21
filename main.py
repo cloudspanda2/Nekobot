@@ -16,7 +16,6 @@ async def on_message(message: Message) -> None:
     await Application.message_reviced(message, base)
     pass
 
-
 if __name__ == "__main__":
     # Inicializa o boto em seu estado atual
     base.run(token=str(getenv("TOKEN")), reconnect=bool(True))
