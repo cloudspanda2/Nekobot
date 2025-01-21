@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CatActivitySettingProjectState">
+    <option name="details" value="Project" />
+    <option name="enabled" value="true" />
+    <option name="firstInit" value="false" />
+    <option name="projectDetailFormat" value="Trabalhando em %projectName%" />
+    <option name="projectStateFormat" value="Melhor programador" />
+    <option name="usingTheme" value="Frappe" />
+  </component>
+</project>
