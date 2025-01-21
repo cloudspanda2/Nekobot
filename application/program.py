@@ -1,4 +1,4 @@
-from discord import Client, Message, Game, AllowedMentions, Guild, Status, TextChannel, File
+from discord import Client, Message, Game, AllowedMentions, Guild, Status, TextChannel, File, ChannelType
 from pathlib import Path
 from random import choice
 from time import sleep
@@ -100,19 +100,25 @@ class Application:
         wait: int = choice([1, 2, 3, 4, 5])
 
         # Determina se a mensagem é no canal de comandos
-        if int(message.channel.id) == int(1331234860131680316):
-            if str("@everyone") in message.content or str("@here") in message.content:
-                # Comando de falar
-                if bool(message.content.startswith("->speak")):
-                    await Application.speak(message=message, delay=int(wait), tc=target_channel)
-                elif bool(message.content.startswith("->reply")):
-                    await Application.reply(message=message, delay=int(wait), tc=target_channel)
+        if ctx.application_id == message.author.id:
+            if not str(message.channel.type) == "private":
+                if int(message.channel.id) == int(1331234860131680316):
+                    if str("@everyone") in message.content or str("@here") in message.content:
+                        # Comando de falar
+                        if bool(message.content.startswith("->speak")):
+                            await Application.speak(message=message, delay=int(wait), tc=target_channel)
+                        elif bool(message.content.startswith("->reply")):
+                            await Application.reply(message=message, delay=int(wait), tc=target_channel)
+                        else:
+                            await message.reply("<:system_why:1331271697399283827> Não é possível encontrar a referência a um comando.")
+                    else:
+                        await message.reply("<:system_why:1331271697399283827> Por restrições do servidor, não é possível mencionar everyone e nem here.")
+                        return
                 else:
-                    await message.reply("<:system_why:1331271697399283827> Não é possível encontrar a referência a um comando.")
+                    return
             else:
-                await message.reply("<:system_why:1331271697399283827> Por restrições do servidor, não é possível mencionar everyone e nem here.")
                 return
         else:
-            await message.author.send("<:system_why:1331271697399283827> Os comandos dessa integração funcionam apenas em um servidor específico e devem ser usados em https://discord.com/channels/1323154125180895344/1331234860131680316")
             return
-    pass
+
+        pass
