@@ -1,4 +1,4 @@
-from discord import Client, Intents, Message
+from discord import Client, Intents, Message, Guild
 from application.program import Application
 from discord.ext import commands
 from os import getenv

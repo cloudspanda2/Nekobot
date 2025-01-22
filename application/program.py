@@ -1,4 +1,4 @@
-from discord import Client, Message, Game, AllowedMentions, Guild, Status, TextChannel, File, Attachment
+from discord import Client, Message, Game, AllowedMentions, Guild, Status, TextChannel, File, Attachment, User
 from requests import get, Response
 from emoji import is_emoji
 from random import choice
@@ -105,7 +105,6 @@ class Application:
             print(exc)
             return
 
-
     # -------------------------------------------------------------- Código de eventos --------------------------------------------------------------
 
     @staticmethod
@@ -117,13 +116,14 @@ class Application:
         """
 
         # Inicializa a atividade no perfil do bot
-        activity: Game = Game(name="AstraCore 2.5", platform="Xbox")
+        activity: Game = Game(name="🤍 UwU :3 🤍", platform="Xbox")
 
         # Define as atividades do bot
         await ctx.change_presence(activity=activity, status=Status.idle)
 
         # Diz a quais menções a bot deve responder
         ctx.allowed_mentions = AllowedMentions(everyone=False, roles=False)
+
         pass
 
     @staticmethod
